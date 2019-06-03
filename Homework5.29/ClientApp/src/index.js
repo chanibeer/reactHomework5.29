@@ -1,19 +1,58 @@
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
-import './index.css';
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
-import App from './App';
-import registerServiceWorker from './registerServiceWorker';
+import react from 'react';
+import { render } from 'react-dom';
+import Header from './Header';
+import PeopleList from './PeopleList';
 
-const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-const rootElement = document.getElementById('root');
+class App extends React.Component {
 
-ReactDOM.render(
-  <BrowserRouter basename={baseUrl}>
-    <App />
-  </BrowserRouter>,
-  rootElement);
+    state = {
+        firstName: '',
+        lastName: '',
+        age: '',
+        people: []
+    }
 
-registerServiceWorker();
+    onFirstNameTextChange = e => {
+        this.setState({ firstName: e.target.value });
+    }
+
+    onLastNameTextChange = e => {
+        this.setState({ lastName: e.target.value });
+    }
+
+    onAgeTextChange = e => {
+        this.setState({ age: e.target.value });
+    }
+
+    onSubmitClick = () => {
+        const copy = [...this.state.people];
+        const { firstName, lastName, age } = thsi.state;
+        const person = { firstName, lastName, age };
+        copy.push(person);
+        this.setState({ people: copy });
+        this.clearTextBoxes;
+    }
+
+    clearTextBoxes = () => {
+        this.setState({ firstName: '', lastName: '', age: '' });
+    }
+
+    clearTable = () => {
+        this.setState({ people: [] });
+    }
+
+    render() {
+        return (
+            <div className="container" style={{ marginTop: 40 }}>
+                <Header
+                    firstName={this.state.firstName} lastName={this.state.lastName} age={this.state.lastName} age={this.state.age}
+                    firstnameTextChange={this.onFirstNameTextChange} lastNameTextChange={this.onLastNameTextChange} ageTextChange={this.onAgeTextChange}
+                    submitClick={this.onSubmitClick} clearTable={this.clearTable} />
+                <PeopleList people={this.state.people} />
+            </div>
+        );
+    }
+}
+
+
+render(<App />, document.getElementById('root'));
